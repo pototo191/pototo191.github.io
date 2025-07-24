@@ -13,11 +13,20 @@
                     colors: {
                         primary: '#5D5CDE',
                         'primary-dark': '#4B4BC8',
+                        'basketball': '#D2691E',
+                        'minecraft-green': '#00AA00',
+                        'minecraft-brown': '#8B4513',
+                        'court-orange': '#FF4500',
                     },
                     animation: {
                         'float': 'float 6s ease-in-out infinite',
                         'slide-up': 'slideUp 0.8s ease-out',
                         'fade-in': 'fadeIn 1s ease-out',
+                        'bounce-basketball': 'bounceBasketball 2s ease-in-out infinite',
+                        'minecraft-pulse': 'minecraftPulse 1.5s ease-in-out infinite',
+                        'glow': 'glow 2s ease-in-out infinite alternate',
+                        'shake': 'shake 0.5s ease-in-out',
+                        'pixel-dance': 'pixelDance 3s ease-in-out infinite',
                     },
                     keyframes: {
                         float: {
@@ -31,6 +40,30 @@
                         fadeIn: {
                             '0%': { opacity: '0' },
                             '100%': { opacity: '1' },
+                        },
+                        bounceBasketball: {
+                            '0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
+                            '25%': { transform: 'translateY(-30px) rotate(90deg)' },
+                            '50%': { transform: 'translateY(-60px) rotate(180deg)' },
+                            '75%': { transform: 'translateY(-30px) rotate(270deg)' },
+                        },
+                        minecraftPulse: {
+                            '0%, 100%': { transform: 'scale(1)', filter: 'brightness(1)' },
+                            '50%': { transform: 'scale(1.1)', filter: 'brightness(1.2) saturate(1.3)' },
+                        },
+                        glow: {
+                            '0%': { 'box-shadow': '0 0 20px rgba(93, 92, 222, 0.5)' },
+                            '100%': { 'box-shadow': '0 0 40px rgba(93, 92, 222, 0.8), 0 0 60px rgba(93, 92, 222, 0.4)' },
+                        },
+                        shake: {
+                            '0%, 100%': { transform: 'translateX(0)' },
+                            '25%': { transform: 'translateX(-5px)' },
+                            '75%': { transform: 'translateX(5px)' },
+                        },
+                        pixelDance: {
+                            '0%, 100%': { transform: 'translateY(0px) scale(1)' },
+                            '33%': { transform: 'translateY(-10px) scale(1.1)' },
+                            '66%': { transform: 'translateY(5px) scale(0.9)' },
                         }
                     }
                 }
@@ -38,79 +71,196 @@
         }
     </script>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+        
         .gradient-bg {
-            background: linear-gradient(135deg, #5D5CDE 0%, #667eea 100%);
+            background: linear-gradient(135deg, #5D5CDE 0%, #667eea 30%, #D2691E 70%, #FF4500 100%);
         }
         .dark .gradient-bg {
-            background: linear-gradient(135deg, #4B4BC8 0%, #5a67d8 100%);
+            background: linear-gradient(135deg, #4B4BC8 0%, #5a67d8 30%, #B8860B 70%, #FF6347 100%);
         }
+        
+        .minecraft-bg {
+            background: linear-gradient(45deg, #00AA00 25%, #228B22 25%, #228B22 50%, #00AA00 50%, #00AA00 75%, #228B22 75%);
+            background-size: 20px 20px;
+        }
+        
+        .basketball-court {
+            background: 
+                radial-gradient(circle at 50% 50%, rgba(210, 105, 30, 0.3) 0%, transparent 50%),
+                linear-gradient(90deg, rgba(255, 69, 0, 0.1) 50%, transparent 50%);
+        }
+        
         .project-card {
             transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
         .project-card:hover {
-            transform: translateY(-10px);
+            transform: translateY(-10px) scale(1.02);
         }
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: rotate(45deg);
+            transition: all 0.6s;
+            opacity: 0;
+        }
+        .project-card:hover::before {
+            animation: shine 0.6s ease-in-out;
+        }
+        
+        @keyframes shine {
+            0% {
+                left: -50%;
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                left: 150%;
+                opacity: 0;
+            }
+        }
+        
         .hobby-icon {
             transition: all 0.3s ease;
         }
         .hobby-icon:hover {
-            transform: scale(1.2);
-            color: #5D5CDE;
+            transform: scale(1.3) rotate(360deg);
+            filter: drop-shadow(0 0 10px currentColor);
+        }
+        
+        .pixel-border {
+            border: 4px solid;
+            border-image: linear-gradient(45deg, #00AA00, #228B22, #00AA00) 1;
+            position: relative;
+        }
+        
+        .basketball-particle {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: radial-gradient(circle, #D2691E, #8B4513);
+            border-radius: 50%;
+            animation: bounceBasketball 3s ease-in-out infinite;
+        }
+        
+        .minecraft-block {
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(135deg, #00AA00 0%, #228B22 50%, #006400 100%);
+            position: absolute;
+            animation: pixelDance 4s ease-in-out infinite;
+        }
+        
+        .gamer-text {
+            font-family: 'Orbitron', monospace;
+            text-shadow: 0 0 10px currentColor;
+        }
+        
+        .neon-glow {
+            text-shadow: 
+                0 0 5px currentColor,
+                0 0 10px currentColor,
+                0 0 15px currentColor,
+                0 0 20px currentColor;
+        }
+        
+        .particle-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
         }
     </style>
 </head>
 <body class="bg-white dark:bg-gray-900 text-gray-900 dark:text-white transition-colors duration-300">
+    <!-- Floating Basketball Particles -->
+    <div class="particle-container fixed inset-0 z-10">
+        <div class="basketball-particle" style="top: 20%; left: 10%; animation-delay: 0s;"></div>
+        <div class="basketball-particle" style="top: 60%; left: 85%; animation-delay: 1s;"></div>
+        <div class="basketball-particle" style="top: 80%; left: 20%; animation-delay: 2s;"></div>
+        <div class="minecraft-block" style="top: 30%; left: 90%; animation-delay: 0.5s;"></div>
+        <div class="minecraft-block" style="top: 70%; left: 5%; animation-delay: 1.5s;"></div>
+        <div class="minecraft-block" style="top: 10%; left: 50%; animation-delay: 2.5s;"></div>
+    </div>
+
     <!-- Navigation -->
     <nav class="fixed top-0 w-full bg-white/80 dark:bg-gray-900/80 backdrop-blur-md z-50 border-b border-gray-200 dark:border-gray-700">
         <div class="container mx-auto px-6 py-4">
             <div class="flex justify-between items-center">
-                <div class="text-2xl font-bold text-primary">Jonas</div>
+                <div class="text-2xl font-bold text-primary gamer-text neon-glow">🏀 Jonas 🎮</div>
                 <div class="hidden md:flex space-x-8">
-                    <a href="#home" class="hover:text-primary transition-colors">Home</a>
-                    <a href="#about" class="hover:text-primary transition-colors">About</a>
-                    <a href="#projects" class="hover:text-primary transition-colors">Projects</a>
-                    <a href="#contact" class="hover:text-primary transition-colors">Contact</a>
+                    <a href="#home" class="text-gray-700 dark:text-gray-200 hover:text-basketball dark:hover:text-basketball transition-colors gamer-text font-semibold">Home</a>
+                    <a href="#about" class="text-gray-700 dark:text-gray-200 hover:text-minecraft-green dark:hover:text-minecraft-green transition-colors gamer-text font-semibold">About</a>
+                    <a href="#projects" class="text-gray-700 dark:text-gray-200 hover:text-court-orange dark:hover:text-court-orange transition-colors gamer-text font-semibold">Projects</a>
+                    <a href="#contact" class="text-gray-700 dark:text-gray-200 hover:text-primary dark:hover:text-primary transition-colors gamer-text font-semibold">Contact</a>
                 </div>
                 <button id="mobile-menu-btn" class="md:hidden">
                     <i class="fas fa-bars text-xl"></i>
                 </button>
             </div>
             <div id="mobile-menu" class="hidden md:hidden pt-4 border-t border-gray-200 dark:border-gray-700 mt-4">
-                <a href="#home" class="block py-2 hover:text-primary transition-colors">Home</a>
-                <a href="#about" class="block py-2 hover:text-primary transition-colors">About</a>
-                <a href="#projects" class="block py-2 hover:text-primary transition-colors">Projects</a>
-                <a href="#contact" class="block py-2 hover:text-primary transition-colors">Contact</a>
+                <a href="#home" class="block py-2 text-gray-700 dark:text-gray-200 hover:text-basketball transition-colors gamer-text font-semibold">Home</a>
+                <a href="#about" class="block py-2 text-gray-700 dark:text-gray-200 hover:text-minecraft-green transition-colors gamer-text font-semibold">About</a>
+                <a href="#projects" class="block py-2 text-gray-700 dark:text-gray-200 hover:text-court-orange transition-colors gamer-text font-semibold">Projects</a>
+                <a href="#contact" class="block py-2 text-gray-700 dark:text-gray-200 hover:text-primary transition-colors gamer-text font-semibold">Contact</a>
             </div>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <section id="home" class="min-h-screen flex items-center gradient-bg">
-        <div class="container mx-auto px-6 py-20">
+    <section id="home" class="min-h-screen flex items-center gradient-bg relative overflow-hidden">
+        <div class="basketball-court absolute inset-0 opacity-20"></div>
+        <div class="container mx-auto px-6 py-20 relative z-20">
             <div class="flex flex-col lg:flex-row items-center justify-between">
                 <div class="lg:w-1/2 text-white animate-slide-up">
-                    <h1 class="text-5xl lg:text-7xl font-bold mb-6">Hi, I'm Jonas!</h1>
-                    <p class="text-xl lg:text-2xl mb-8 opacity-90">12-year-old Python Developer from Hong Kong</p>
-                    <p class="text-lg mb-8 opacity-80">Passionate about coding, gaming, and creating awesome projects with Python!</p>
+                    <h1 class="text-5xl lg:text-7xl font-bold mb-6 gamer-text neon-glow">
+                        🏀 Hi, I'm Jonas! 🎮
+                    </h1>
+                    <p class="text-xl lg:text-2xl mb-8 opacity-90 gamer-text">
+                        12-year-old Python Developer from Hong Kong
+                    </p>
+                    <p class="text-lg mb-8 opacity-80">
+                        Passionate about coding, basketball, Minecraft, and creating awesome projects with Python! 
+                        <span class="text-basketball font-bold">🏀⚡</span>
+                    </p>
                     <div class="flex flex-col sm:flex-row gap-4">
-                        <a href="#projects" class="bg-white text-primary px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition-colors text-center">
-                            View My Projects
+                        <a href="#projects" class="bg-white text-basketball px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition-colors text-center animate-glow gamer-text">
+                            🚀 View My Epic Projects
                         </a>
-                        <a href="#about" class="border-2 border-white px-8 py-3 rounded-full font-semibold hover:bg-white hover:text-primary transition-colors text-center">
-                            Learn More About Me
+                        <a href="#about" class="border-2 border-white px-8 py-3 rounded-full font-semibold hover:bg-white hover:text-minecraft-green transition-colors text-center gamer-text">
+                            🎯 Learn More About Me
                         </a>
                     </div>
                 </div>
-                <div class="lg:w-1/2 mt-12 lg:mt-0 flex justify-center">
+                <div class="lg:w-1/2 mt-12 lg:mt-0 flex justify-center relative">
                     <div class="relative animate-float">
-                        <div class="w-80 h-80 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
-                            <i class="fab fa-python text-8xl text-white"></i>
+                        <div class="w-80 h-80 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm pixel-border animate-minecraft-pulse">
+                            <i class="fab fa-python text-8xl text-white animate-bounce-basketball"></i>
                         </div>
-                        <div class="absolute -top-4 -right-4 w-16 h-16 bg-yellow-400 rounded-full flex items-center justify-center">
-                            <i class="fas fa-code text-2xl text-yellow-800"></i>
+                        <!-- Floating elements around the main circle -->
+                        <div class="absolute -top-4 -right-4 w-16 h-16 bg-basketball rounded-full flex items-center justify-center animate-bounce-basketball">
+                            <span class="text-2xl">🏀</span>
                         </div>
-                        <div class="absolute -bottom-4 -left-4 w-16 h-16 bg-green-400 rounded-full flex items-center justify-center">
-                            <i class="fas fa-gamepad text-2xl text-green-800"></i>
+                        <div class="absolute -bottom-4 -left-4 w-16 h-16 bg-minecraft-green rounded-lg flex items-center justify-center animate-minecraft-pulse">
+                            <span class="text-2xl">⬛</span>
+                        </div>
+                        <div class="absolute top-1/2 -left-8 w-12 h-12 bg-court-orange rounded-full flex items-center justify-center animate-pixel-dance">
+                            <i class="fas fa-gamepad text-xl text-white"></i>
+                        </div>
+                        <div class="absolute top-1/4 -right-8 w-12 h-12 bg-primary rounded-lg flex items-center justify-center animate-pixel-dance">
+                            <i class="fas fa-code text-xl text-white"></i>
                         </div>
                     </div>
                 </div>
@@ -119,50 +269,53 @@
     </section>
 
     <!-- About Section -->
-    <section id="about" class="py-20 bg-gray-50 dark:bg-gray-800">
-        <div class="container mx-auto px-6">
+    <section id="about" class="py-20 bg-gray-50 dark:bg-gray-800 relative">
+        <div class="minecraft-bg absolute inset-0 opacity-5"></div>
+        <div class="container mx-auto px-6 relative z-10">
             <div class="text-center mb-16">
-                <h2 class="text-4xl lg:text-5xl font-bold mb-6">About Me</h2>
+                <h2 class="text-4xl lg:text-5xl font-bold mb-6 gamer-text neon-glow">
+                    🎮 About This Epic Gamer 🏀
+                </h2>
                 <p class="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-                    I'm a passionate young developer who loves exploring the world of programming and technology.
+                    I'm a passionate young developer who loves exploring the world of programming, basketball, and Minecraft!
                 </p>
             </div>
             
             <div class="grid md:grid-cols-2 gap-12 items-center">
                 <div class="animate-fade-in">
-                    <h3 class="text-2xl font-bold mb-6 text-primary">My Story</h3>
+                    <h3 class="text-2xl font-bold mb-6 text-basketball gamer-text">🏀 My Epic Story 🎮</h3>
                     <p class="text-lg mb-6 text-gray-600 dark:text-gray-300">
-                        At 12 years old, I've already fallen in love with Python programming! I'm currently studying in Hong Kong and spend my time creating exciting projects, analyzing data, and building games.
+                        At 12 years old, I've already fallen in love with Python programming! I'm currently studying in Hong Kong and spend my time creating exciting projects, analyzing data, building games, and dominating the basketball court like LeBron! 🏀⚡
                     </p>
                     <p class="text-lg text-gray-600 dark:text-gray-300">
-                        When I'm not coding, you can find me playing video games, shooting hoops on the basketball court, swimming laps, reading books, or jamming out on my drums. I believe in balancing tech with real-world activities!
+                        When I'm not coding epic programs, you can find me building massive castles in Minecraft, shooting three-pointers on the basketball court, swimming like a pro, reading books, or jamming out on my drums. I believe in balancing tech with real-world adventures! 🎯🔥
                     </p>
                 </div>
                 
                 <div class="grid grid-cols-2 gap-6">
-                    <div class="text-center group">
-                        <div class="hobby-icon text-4xl mb-3">🏀</div>
-                        <h4 class="font-semibold">Basketball</h4>
+                    <div class="text-center group pixel-border bg-gradient-to-br from-basketball/20 to-court-orange/20 p-4 rounded-lg">
+                        <div class="hobby-icon text-5xl mb-3 text-basketball">🏀</div>
+                        <h4 class="font-semibold gamer-text text-gray-800 dark:text-gray-200">Basketball Legend</h4>
                     </div>
-                    <div class="text-center group">
-                        <div class="hobby-icon text-4xl mb-3">🏊‍♂️</div>
-                        <h4 class="font-semibold">Swimming</h4>
+                    <div class="text-center group pixel-border bg-gradient-to-br from-minecraft-green/20 to-minecraft-brown/20 p-4 rounded-lg">
+                        <div class="hobby-icon text-5xl mb-3 text-minecraft-green">⬛</div>
+                        <h4 class="font-semibold gamer-text text-gray-800 dark:text-gray-200">Minecraft Master</h4>
                     </div>
-                    <div class="text-center group">
-                        <div class="hobby-icon text-4xl mb-3">📚</div>
-                        <h4 class="font-semibold">Reading</h4>
+                    <div class="text-center group pixel-border bg-gradient-to-br from-blue-400/20 to-blue-600/20 p-4 rounded-lg">
+                        <div class="hobby-icon text-5xl mb-3 text-blue-500">🏊‍♂️</div>
+                        <h4 class="font-semibold gamer-text text-gray-800 dark:text-gray-200">Swimming Pro</h4>
                     </div>
-                    <div class="text-center group">
-                        <div class="hobby-icon text-4xl mb-3">🥁</div>
-                        <h4 class="font-semibold">Playing Drums</h4>
+                    <div class="text-center group pixel-border bg-gradient-to-br from-yellow-400/20 to-orange-400/20 p-4 rounded-lg">
+                        <div class="hobby-icon text-5xl mb-3 text-yellow-500">🥁</div>
+                        <h4 class="font-semibold gamer-text text-gray-800 dark:text-gray-200">Drum Hero</h4>
                     </div>
-                    <div class="text-center group">
-                        <div class="hobby-icon text-4xl mb-3">🎮</div>
-                        <h4 class="font-semibold">Gaming</h4>
+                    <div class="text-center group pixel-border bg-gradient-to-br from-purple-400/20 to-pink-400/20 p-4 rounded-lg">
+                        <div class="hobby-icon text-5xl mb-3 text-purple-500">📚</div>
+                        <h4 class="font-semibold gamer-text text-gray-800 dark:text-gray-200">Book Wizard</h4>
                     </div>
-                    <div class="text-center group">
-                        <div class="hobby-icon text-4xl mb-3">💻</div>
-                        <h4 class="font-semibold">Coding</h4>
+                    <div class="text-center group pixel-border bg-gradient-to-br from-primary/20 to-purple-600/20 p-4 rounded-lg">
+                        <div class="hobby-icon text-5xl mb-3 text-primary">💻</div>
+                        <h4 class="font-semibold gamer-text text-gray-800 dark:text-gray-200">Code Ninja</h4>
                     </div>
                 </div>
             </div>
@@ -170,75 +323,84 @@
     </section>
 
     <!-- Projects Section -->
-    <section id="projects" class="py-20">
-        <div class="container mx-auto px-6">
+    <section id="projects" class="py-20 relative overflow-hidden">
+        <div class="basketball-court absolute inset-0 opacity-10"></div>
+        <div class="container mx-auto px-6 relative z-10">
             <div class="text-center mb-16">
-                <h2 class="text-4xl lg:text-5xl font-bold mb-6">My Python Projects</h2>
+                <h2 class="text-4xl lg:text-5xl font-bold mb-6 gamer-text neon-glow">
+                    🚀 My Epic Python Projects 🎮
+                </h2>
                 <p class="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-                    Check out some of the cool projects I've built with Python!
+                    Check out some of the absolutely legendary projects I've built with Python! 🔥⚡
                 </p>
             </div>
             
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <!-- Project 1: Data Analysis -->
-                <div class="project-card bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-lg border border-gray-200 dark:border-gray-700">
-                    <div class="bg-gradient-to-r from-blue-500 to-purple-600 h-48 flex items-center justify-center">
-                        <i class="fas fa-chart-bar text-6xl text-white"></i>
+                <div class="project-card bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-lg border border-gray-200 dark:border-gray-700 pixel-border">
+                    <div class="bg-gradient-to-r from-blue-500 via-basketball to-purple-600 h-48 flex items-center justify-center relative">
+                        <i class="fas fa-chart-bar text-6xl text-white animate-bounce-basketball"></i>
+                        <div class="absolute top-2 right-2">🏀</div>
+                        <div class="absolute bottom-2 left-2">📊</div>
                     </div>
                     <div class="p-6">
-                        <h3 class="text-2xl font-bold mb-3">Data Analysis Project</h3>
+                        <h3 class="text-2xl font-bold mb-3 gamer-text">🏀 Data Analysis Beast</h3>
                         <p class="text-gray-600 dark:text-gray-300 mb-4">
-                            A comprehensive data analysis project using Python libraries like pandas and matplotlib to visualize interesting datasets and discover insights.
+                            A legendary data analysis project using Python libraries like pandas and matplotlib to visualize basketball stats and discover epic insights! 🔥📈
                         </p>
                         <div class="flex flex-wrap gap-2 mb-4">
-                            <span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm">Python</span>
-                            <span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm">Pandas</span>
-                            <span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm">Matplotlib</span>
+                            <span class="bg-basketball/20 text-basketball px-3 py-1 rounded-full text-sm font-bold">Python</span>
+                            <span class="bg-minecraft-green/20 text-minecraft-green px-3 py-1 rounded-full text-sm font-bold">Pandas</span>
+                            <span class="bg-primary/20 text-primary px-3 py-1 rounded-full text-sm font-bold">Matplotlib</span>
                         </div>
-                        <button class="w-full bg-primary text-white py-3 rounded-lg hover:bg-primary-dark transition-colors">
-                            <i class="fas fa-external-link-alt mr-2"></i>View Project
+                        <button class="w-full bg-basketball text-white py-3 rounded-lg hover:bg-court-orange transition-colors gamer-text animate-glow">
+                            <i class="fas fa-external-link-alt mr-2"></i>🚀 View Epic Project
                         </button>
                     </div>
                 </div>
 
                 <!-- Project 2: Tetris Game -->
-                <div class="project-card bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-lg border border-gray-200 dark:border-gray-700">
-                    <div class="bg-gradient-to-r from-green-500 to-teal-600 h-48 flex items-center justify-center">
-                        <i class="fas fa-gamepad text-6xl text-white"></i>
+                <div class="project-card bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-lg border border-gray-200 dark:border-gray-700 pixel-border">
+                    <div class="bg-gradient-to-r from-minecraft-green via-green-500 to-teal-600 h-48 flex items-center justify-center relative">
+                        <i class="fas fa-gamepad text-6xl text-white animate-minecraft-pulse"></i>
+                        <div class="absolute top-2 right-2">⬛</div>
+                        <div class="absolute bottom-2 left-2">🎮</div>
                     </div>
                     <div class="p-6">
-                        <h3 class="text-2xl font-bold mb-3">Tetris Game</h3>
+                        <h3 class="text-2xl font-bold mb-3 gamer-text">⬛ Minecraft-Style Tetris</h3>
                         <p class="text-gray-600 dark:text-gray-300 mb-4">
-                            A fully functional Tetris game built with Python and pygame, developed with the help of AI. Features include scoring, line clearing, and increasing difficulty levels.
+                            A fully functional Tetris game built with Python and pygame, with Minecraft block aesthetics! Features scoring, line clearing, and increasing difficulty levels. 🎯🔥
                         </p>
                         <div class="flex flex-wrap gap-2 mb-4">
-                            <span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm">Python</span>
-                            <span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm">Pygame</span>
-                            <span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm">AI Assisted</span>
+                            <span class="bg-minecraft-green/20 text-minecraft-green px-3 py-1 rounded-full text-sm font-bold">Python</span>
+                            <span class="bg-basketball/20 text-basketball px-3 py-1 rounded-full text-sm font-bold">Pygame</span>
+                            <span class="bg-primary/20 text-primary px-3 py-1 rounded-full text-sm font-bold">AI Assisted</span>
                         </div>
-                        <button class="w-full bg-primary text-white py-3 rounded-lg hover:bg-primary-dark transition-colors">
-                            <i class="fas fa-play mr-2"></i>Play Game
+                        <button class="w-full bg-minecraft-green text-white py-3 rounded-lg hover:bg-green-600 transition-colors gamer-text animate-glow">
+                            <i class="fas fa-play mr-2"></i>🎮 Play Epic Game
                         </button>
                     </div>
                 </div>
 
                 <!-- Project 3: Turtle Visualization -->
-                <div class="project-card bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-lg border border-gray-200 dark:border-gray-700">
-                    <div class="bg-gradient-to-r from-pink-500 to-red-600 h-48 flex items-center justify-center">
-                        <i class="fas fa-palette text-6xl text-white"></i>
+                <div class="project-card bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-lg border border-gray-200 dark:border-gray-700 pixel-border">
+                    <div class="bg-gradient-to-r from-pink-500 via-court-orange to-red-600 h-48 flex items-center justify-center relative">
+                        <i class="fas fa-palette text-6xl text-white animate-pixel-dance"></i>
+                        <div class="absolute top-2 right-2">🎨</div>
+                        <div class="absolute bottom-2 left-2">✨</div>
                     </div>
                     <div class="p-6">
-                        <h3 class="text-2xl font-bold mb-3">Turtle Visualization</h3>
+                        <h3 class="text-2xl font-bold mb-3 gamer-text">🎨 Epic Art Generator</h3>
                         <p class="text-gray-600 dark:text-gray-300 mb-4">
-                            A beautiful and mesmerizing visualization project using Python's turtle graphics library to create stunning geometric patterns and artistic designs.
+                            A mind-blowing visualization project using Python's turtle graphics to create stunning geometric patterns that look like basketball court designs and pixel art! ⚡🔥
                         </p>
                         <div class="flex flex-wrap gap-2 mb-4">
-                            <span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm">Python</span>
-                            <span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm">Turtle Graphics</span>
-                            <span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm">Art</span>
+                            <span class="bg-court-orange/20 text-court-orange px-3 py-1 rounded-full text-sm font-bold">Python</span>
+                            <span class="bg-primary/20 text-primary px-3 py-1 rounded-full text-sm font-bold">Turtle Graphics</span>
+                            <span class="bg-pink-500/20 text-pink-500 px-3 py-1 rounded-full text-sm font-bold">Epic Art</span>
                         </div>
-                        <button class="w-full bg-primary text-white py-3 rounded-lg hover:bg-primary-dark transition-colors">
-                            <i class="fas fa-eye mr-2"></i>View Art
+                        <button class="w-full bg-court-orange text-white py-3 rounded-lg hover:bg-red-600 transition-colors gamer-text animate-glow">
+                            <i class="fas fa-eye mr-2"></i>🎨 View Sick Art
                         </button>
                     </div>
                 </div>
@@ -247,25 +409,28 @@
     </section>
 
     <!-- Contact Section -->
-    <section id="contact" class="py-20 bg-gray-50 dark:bg-gray-800">
-        <div class="container mx-auto px-6 text-center">
-            <h2 class="text-4xl lg:text-5xl font-bold mb-6">Let's Connect!</h2>
+    <section id="contact" class="py-20 bg-gray-50 dark:bg-gray-800 relative">
+        <div class="minecraft-bg absolute inset-0 opacity-5"></div>
+        <div class="container mx-auto px-6 text-center relative z-10">
+            <h2 class="text-4xl lg:text-5xl font-bold mb-6 gamer-text neon-glow">
+                🏀 Let's Team Up! 🎮
+            </h2>
             <p class="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
-                Want to collaborate on a project or just chat about Python and programming? I'd love to hear from you!
+                Want to collaborate on an epic project, play some basketball, or build something legendary in Minecraft? Let's connect and create something amazing! 🚀⚡
             </p>
             
             <div class="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto">
-                <button class="bg-primary text-white px-8 py-3 rounded-full font-semibold hover:bg-primary-dark transition-colors flex items-center justify-center">
-                    <i class="fas fa-envelope mr-2"></i>Send Message
+                <button class="bg-basketball text-white px-8 py-3 rounded-full font-semibold hover:bg-court-orange transition-colors flex items-center justify-center gamer-text animate-glow">
+                    <i class="fas fa-envelope mr-2"></i>🚀 Send Epic Message
                 </button>
-                <button class="border-2 border-primary text-primary px-8 py-3 rounded-full font-semibold hover:bg-primary hover:text-white transition-colors flex items-center justify-center">
-                    <i class="fab fa-github mr-2"></i>View GitHub
+                <button class="border-2 border-minecraft-green text-minecraft-green px-8 py-3 rounded-full font-semibold hover:bg-minecraft-green hover:text-white transition-colors flex items-center justify-center gamer-text">
+                    <i class="fab fa-github mr-2"></i>⬛ View GitHub
                 </button>
             </div>
             
             <div class="mt-12 pt-8 border-t border-gray-300 dark:border-gray-600">
-                <p class="text-gray-500 dark:text-gray-400">
-                    Made with ❤️ by Jonas | 12-year-old Python Developer from Hong Kong
+                <p class="text-gray-500 dark:text-gray-400 gamer-text">
+                    Made with 🏀❤️🎮 by Jonas | 12-year-old Python Developer & Basketball Legend from Hong Kong
                 </p>
             </div>
         </div>
@@ -306,6 +471,38 @@
             });
         });
 
+        // Create more dynamic particles
+        function createParticle() {
+            const particle = document.createElement('div');
+            const isBasketball = Math.random() > 0.5;
+            
+            if (isBasketball) {
+                particle.className = 'basketball-particle';
+                particle.style.background = 'radial-gradient(circle, #D2691E, #8B4513)';
+            } else {
+                particle.className = 'minecraft-block';
+                particle.style.background = 'linear-gradient(135deg, #00AA00 0%, #228B22 50%, #006400 100%)';
+                particle.style.borderRadius = '2px';
+            }
+            
+            particle.style.position = 'absolute';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.top = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 3 + 's';
+            particle.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            
+            document.querySelector('.particle-container').appendChild(particle);
+            
+            setTimeout(() => {
+                if (particle.parentNode) {
+                    particle.parentNode.removeChild(particle);
+                }
+            }, 5000);
+        }
+
+        // Create particles periodically
+        setInterval(createParticle, 2000);
+
         // Intersection Observer for animations
         const observerOptions = {
             threshold: 0.1,
@@ -329,42 +526,79 @@
             observer.observe(card);
         });
 
-        // Add some interactive elements
+        // Enhanced hobby icon interactions
         document.querySelectorAll('.hobby-icon').forEach(icon => {
             icon.addEventListener('mouseenter', function() {
-                this.style.transform = 'scale(1.2) rotate(10deg)';
+                this.style.transform = 'scale(1.4) rotate(360deg)';
+                this.style.filter = 'drop-shadow(0 0 15px currentColor) brightness(1.2)';
             });
             icon.addEventListener('mouseleave', function() {
                 this.style.transform = 'scale(1) rotate(0deg)';
+                this.style.filter = 'none';
             });
         });
 
-        // Project button interactions
+        // Epic project button interactions with custom modals
         document.querySelectorAll('.project-card button').forEach(button => {
             button.addEventListener('click', function() {
                 const projectTitle = this.closest('.project-card').querySelector('h3').textContent;
-                // Create a simple modal instead of using alert()
-                showProjectModal(projectTitle);
+                this.classList.add('animate-shake');
+                setTimeout(() => this.classList.remove('animate-shake'), 500);
+                showEpicProjectModal(projectTitle);
             });
         });
 
-        function showProjectModal(projectTitle) {
+        function showEpicProjectModal(projectTitle) {
             const modal = document.createElement('div');
-            modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+            modal.className = 'fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50';
             modal.innerHTML = `
-                <div class="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-2xl max-w-md w-full mx-4">
-                    <h3 class="text-2xl font-bold mb-4 text-primary">${projectTitle}</h3>
-                    <p class="text-gray-600 dark:text-gray-300 mb-6">
-                        This project showcase is coming soon! I'm still working on making it even more awesome. 
-                        Stay tuned for the full demo!
+                <div class="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-2xl max-w-md w-full mx-4 pixel-border animate-minecraft-pulse">
+                    <h3 class="text-2xl font-bold mb-4 text-basketball gamer-text neon-glow">${projectTitle}</h3>
+                    <div class="text-center mb-4">
+                        <div class="text-6xl animate-bounce-basketball">🚀</div>
+                    </div>
+                    <p class="text-gray-600 dark:text-gray-300 mb-6 text-center">
+                        This epic project showcase is coming soon! I'm still working on making it even more legendary and absolutely mind-blowing! 
+                        Stay tuned for the full demo that will blow your mind! 🔥⚡🎯
                     </p>
-                    <button class="w-full bg-primary text-white py-3 rounded-lg hover:bg-primary-dark transition-colors" 
+                    <div class="text-center mb-4">
+                        <div class="text-2xl">🏀⬛🎮</div>
+                    </div>
+                    <button class="w-full bg-gradient-to-r from-basketball to-court-orange text-white py-3 rounded-lg hover:from-court-orange hover:to-basketball transition-colors gamer-text animate-glow" 
                             onclick="this.closest('.fixed').remove()">
-                        Cool, can't wait! 🚀
+                        🚀 Can't wait to see this epic project! 🔥
                     </button>
                 </div>
             `;
             document.body.appendChild(modal);
+        }
+
+        // Add some sick sound effects simulation (visual feedback)
+        document.addEventListener('click', function(e) {
+            if (e.target.matches('button, a')) {
+                createClickEffect(e.clientX, e.clientY);
+            }
+        });
+
+        function createClickEffect(x, y) {
+            const effect = document.createElement('div');
+            effect.style.position = 'fixed';
+            effect.style.left = x + 'px';
+            effect.style.top = y + 'px';
+            effect.style.width = '20px';
+            effect.style.height = '20px';
+            effect.style.background = 'radial-gradient(circle, #D2691E, transparent)';
+            effect.style.borderRadius = '50%';
+            effect.style.pointerEvents = 'none';
+            effect.style.zIndex = '9999';
+            effect.style.animation = 'bounceBasketball 0.5s ease-out';
+            document.body.appendChild(effect);
+            
+            setTimeout(() => {
+                if (effect.parentNode) {
+                    effect.parentNode.removeChild(effect);
+                }
+            }, 500);
         }
     </script>
 </body>
