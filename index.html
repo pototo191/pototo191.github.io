@@ -376,9 +376,11 @@
                             <span class="bg-basketball/20 text-basketball px-3 py-1 rounded-full text-sm font-bold">Pygame</span>
                             <span class="bg-primary/20 text-primary px-3 py-1 rounded-full text-sm font-bold">AI Assisted</span>
                         </div>
-                        <button class="w-full bg-minecraft-green text-white py-3 rounded-lg hover:bg-green-600 transition-colors gamer-text animate-glow">
-                            <i class="fas fa-play mr-2"></i>🎮 Play Epic Game
-                        </button>
+                        <a href="https://poe.com/preview/cyItWzxUO5yQY6XOIQfN" target="_blank" rel="noopener noreferrer">
+                            <button id="play-epic-game-btn" class="w-full bg-minecraft-green text-white py-3 rounded-lg hover:bg-green-600 transition-colors gamer-text animate-glow">
+                                <i class="fas fa-play mr-2"></i>🎮 Play Epic Game
+                            </button>
+                        </a>
                     </div>
                 </div>
 
@@ -471,6 +473,25 @@
             });
         });
 
+        // Special handler for "Play Epic Game" button
+        document.getElementById('play-epic-game-btn').addEventListener('click', function() {
+            this.classList.add('animate-shake');
+            setTimeout(() => this.classList.remove('animate-shake'), 500);
+            
+            // Redirect to the Tetris game
+            window.open('https://poe.com/preview/cyItWzxUO5yQY6XOIQfN', '_blank');
+        });
+
+        // Epic project button interactions with custom modals (excluding the Tetris game button)
+        document.querySelectorAll('.project-card button:not(#play-epic-game-btn)').forEach(button => {
+            button.addEventListener('click', function() {
+                const projectTitle = this.closest('.project-card').querySelector('h3').textContent;
+                this.classList.add('animate-shake');
+                setTimeout(() => this.classList.remove('animate-shake'), 500);
+                showEpicProjectModal(projectTitle);
+            });
+        });
+
         // Create more dynamic particles
         function createParticle() {
             const particle = document.createElement('div');
@@ -535,16 +556,6 @@
             icon.addEventListener('mouseleave', function() {
                 this.style.transform = 'scale(1) rotate(0deg)';
                 this.style.filter = 'none';
-            });
-        });
-
-        // Epic project button interactions with custom modals
-        document.querySelectorAll('.project-card button').forEach(button => {
-            button.addEventListener('click', function() {
-                const projectTitle = this.closest('.project-card').querySelector('h3').textContent;
-                this.classList.add('animate-shake');
-                setTimeout(() => this.classList.remove('animate-shake'), 500);
-                showEpicProjectModal(projectTitle);
             });
         });
 
