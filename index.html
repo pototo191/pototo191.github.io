@@ -485,14 +485,14 @@
         });
 
         // Epic project button interactions with custom modals (excluding the Tetris game button)
-        document.querySelectorAll('.project-card button:not(#play-epic-game-btn)').forEach(button => {
+        /* document.querySelectorAll('.project-card button:not(#play-epic-game-btn)').forEach(button => {
             button.addEventListener('click', function() {
                 const projectTitle = this.closest('.project-card').querySelector('h3').textContent;
                 this.classList.add('animate-shake');
                 setTimeout(() => this.classList.remove('animate-shake'), 500);
                 showEpicProjectModal(projectTitle);
             });
-        });
+        }); */
 
         // Create more dynamic particles
         function createParticle() {
